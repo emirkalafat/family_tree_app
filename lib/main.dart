@@ -1,8 +1,14 @@
+import 'package:family_tree_app/screens/people_list.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
-import 'home.dart';
+import 'firebase_options.dart';
+import 'screens/home.dart';
 
-void main() {
+void main() async {
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MainApp());
 }
 
@@ -22,6 +28,7 @@ class _MainAppState extends State<MainApp> {
         useMaterial3: true,
       ),
       home: const Home(),
+      //home: const AllFamilyList(),
     );
   }
 }

@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "490134314199",
+    "firebase_url": "https://aile-agacimiz-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "aile-agacimiz",
+    "storage_bucket": "aile-agacimiz.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:490134314199:android:06e5e3de15c94d8f52a492",
+        "android_client_info": {
+          "package_name": "com.example.family_tree_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "490134314199-a9uucf86r372jpbg7epq0in9fofvchoc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBPYToOaHitJjIQDepaVpSfYjlK729CUbY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "490134314199-a9uucf86r372jpbg7epq0in9fofvchoc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

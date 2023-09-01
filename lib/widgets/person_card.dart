@@ -18,12 +18,33 @@ class PersonCard extends StatefulWidget {
   State<PersonCard> createState() => _PersonCardState();
 }
 
+Map<String, String> mounths = {
+  '01': 'Ocak',
+  '02': 'Şubat',
+  '03': 'Mart',
+  '04': 'Nisan',
+  '05': 'Mayıs',
+  '06': 'Haziran',
+  '07': 'Temmuz',
+  '08': 'Ağustos',
+  '09': 'Eylül',
+  '10': 'Ekim',
+  '11': 'Kasım',
+  '12': 'Aralık',
+};
+
 class _PersonCardState extends State<PersonCard> {
   bool isOpen = false;
 
   @override
   Widget build(BuildContext context) {
+    List<String>? birthDate = widget.person!.birthDate
+        ?.toIso8601String()
+        .replaceRange(10, null, '')
+        .replaceAll('-', ' ')
+        .split(' ');
     return Row(
+      mainAxisSize: MainAxisSize.min,
       children: [
         if (isOpen &&
             (widget.type == PersonCardType.lHusband ||
@@ -80,22 +101,11 @@ class _PersonCardState extends State<PersonCard> {
                                     widget.person!.image ??
                                         'assets/images/unknown.png'),
                               ),
-                              //Align(
-                              //  alignment: Alignment.topCenter,
-                              //  type == PersonCardType.lHusband ||
-                              //          type == PersonCardType.lWife
-                              //      ? Alignment.topLeft
-                              //      : type == PersonCardType.rWife ||
-                              //              type == PersonCardType.rHusband
-                              //          ? Alignment.topRight
-                              //          : Alignment.topCenter,
-                              //  child:
-                              //),
                               Text(widget.person!.name),
                               Text(widget.person!.currentSurname),
-                              Text(
-                                  widget.person!.birthDate?.toIso8601String() ??
-                                      'N/A'),
+                              Text(birthDate == null
+                                  ? 'N/A'
+                                  : "${birthDate[2]} ${mounths[birthDate[1]]!} ${birthDate[0]}"),
                             ],
                           )
                         : const Text('N/A')),
