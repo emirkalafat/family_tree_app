@@ -1,11 +1,11 @@
-import 'package:family_tree_app/widgets/custom_drawer.dart';
+import 'package:collection/collection.dart' show IterableExtension;
+import 'package:family_tree_app/widgets/person_card.dart';
+import 'package:family_tree_app/widgets/spouse_group_card.dart';
 import 'package:flutter/material.dart';
 import 'package:graphview/GraphView.dart';
 
 import 'package:family_tree_app/data/people.dart';
-import 'package:family_tree_app/models/spouse.dart';
-import 'package:family_tree_app/widgets/person_card.dart';
-import 'package:family_tree_app/widgets/spouse_group_card.dart';
+import 'package:family_tree_app/widgets/custom_drawer.dart';
 
 import '../models/person.dart';
 
@@ -24,7 +24,7 @@ class _HomeState extends State<Home> {
     ..levelSeparation = (75)
     ..subtreeSeparation = (50);
 
-  Person mainPerson = People.getPersonByID(1)!;
+  Person mainPerson = People.getPersonByID(4)!;
 
   List<Map<String, int>>? edges;
 
@@ -32,18 +32,17 @@ class _HomeState extends State<Home> {
 
   @override
   void initState() {
-    edges = People.createEdges(mainPerson.id);
+    edges = People.createParentAndSiblingsEdges(mainPerson.id);
     (edges == null || edges!.isEmpty) ? isEmpty = true : isEmpty = false;
-    print('#####\nFinal Edges: $edges');
-    print('Edges length: ${edges?.length ?? 'null'}');
-    for (var element in edges!) {
-      var fromNodeId = element['from'];
-      var toNodeId = element['to'];
-      graph.addEdge(Node.Id(fromNodeId), Node.Id(toNodeId));
-    }
-    //graph can reduce repeated edges. which is nice :)
-    print('Graph edges length: ${graph.edges.length}');
+
+    People.addEdges(edges!, graph);
+
     super.initState();
+  }
+
+  @override
+  void setState(VoidCallback fn) {
+    super.setState(fn);
   }
 
   @override
@@ -71,28 +70,29 @@ class _HomeState extends State<Home> {
                     BuchheimWalkerAlgorithm(builder, TreeEdgeRenderer(builder)),
                 builder: (node) {
                   var a = node.key!.value as int?;
-                  var personNode =
-                      People.all.firstWhere((element) => element.id == a);
-                  if (personNode.spouse.type != SpouseType.single) {
-                    if (personNode.spouse.type == SpouseType.wife) {
-                      return SpouseGroupCard(
-                          husband: People.getPersonByID(personNode.id),
-                          wife:
-                              People.getPersonByID(personNode.spouse.personID!),
-                          first: 'husband');
-                    } else {
-                      return SpouseGroupCard(
-                          wife: People.getPersonByID(personNode.id),
-                          husband:
-                              People.getPersonByID(personNode.spouse.personID!),
-                          first: 'wife');
-                    }
-                  } else {
+                  var partnerNode = People.allPartnerships.firstWhereOrNull(
+                    (element) => element.id == a,
+                  );
+                  var personNode = People.allPeople.firstWhereOrNull(
+                    (element) => element.id == a,
+                  );
+                  if (partnerNode != null) {
+                    return SpouseGroupCard(
+                      husband: People.getPersonByID(partnerNode.husbandID),
+                      wife: People.getPersonByID(partnerNode.wifeID),
+                      graph: graph,
+                      callback: () {
+                        setState(() {});
+                      },
+                    );
+                  }
+                  if (personNode != null) {
                     return PersonCard(
-                      person: People.getPersonByID(personNode.id),
+                      person: personNode,
                       type: PersonCardType.single,
                     );
                   }
+                  return const SizedBox();
                 },
               )),
     );

@@ -1,10 +1,10 @@
-enum SpouseType { single, wife, husband }
+enum PartnerType { single, wife, husband }
 
-class Spouse {
-  final SpouseType type;
+class Partner {
+  final PartnerType type;
   final int? personID;
-  const Spouse({required this.type, this.personID})
+  const Partner({required this.type, this.personID})
       : //assert(type == SpouseType.single && personID == null),
-        assert(type != SpouseType.husband || personID != null),
-        assert(type != SpouseType.wife || personID != null);
+        assert(type != PartnerType.husband || personID != null),
+        assert(type != PartnerType.wife || personID != null);
 }

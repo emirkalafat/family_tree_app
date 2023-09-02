@@ -1,6 +1,7 @@
-import 'package:family_tree_app/secrets/known_people.dart';
-import 'package:family_tree_app/widgets/person_card.dart';
 import 'package:flutter/material.dart';
+
+import 'package:family_tree_app/data/people.dart';
+import 'package:family_tree_app/widgets/person_card.dart';
 
 class AllFamilyList extends StatefulWidget {
   const AllFamilyList({super.key});
@@ -23,10 +24,10 @@ class _AllFamilyListState extends State<AllFamilyList> {
             runSpacing: 10,
             direction: Axis.horizontal,
             children: List.generate(
-                people.length,
+                People.allPeople.length,
                 (index) => PersonCard(
                       type: PersonCardType.single,
-                      person: people[index],
+                      person: People.allPeople[index],
                     )),
           ),
         ));

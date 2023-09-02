@@ -1,48 +1,31 @@
 import 'package:flutter/material.dart';
 
-import '../models/person.dart';
+import 'package:family_tree_app/models/person.dart';
 
 enum PersonCardType { lHusband, lWife, rHusband, rWife, single }
 
 class PersonCard extends StatefulWidget {
   final Person? person;
   final PersonCardType type;
+  final bool? isActiveTree;
 
   const PersonCard({
-    super.key,
+    Key? key,
     this.person = Person.empty,
     required this.type,
-  });
+    this.isActiveTree,
+  })  : assert(isActiveTree != null || type == PersonCardType.single),
+        super(key: key);
 
   @override
   State<PersonCard> createState() => _PersonCardState();
 }
-
-Map<String, String> mounths = {
-  '01': 'Ocak',
-  '02': 'Şubat',
-  '03': 'Mart',
-  '04': 'Nisan',
-  '05': 'Mayıs',
-  '06': 'Haziran',
-  '07': 'Temmuz',
-  '08': 'Ağustos',
-  '09': 'Eylül',
-  '10': 'Ekim',
-  '11': 'Kasım',
-  '12': 'Aralık',
-};
 
 class _PersonCardState extends State<PersonCard> {
   bool isOpen = false;
 
   @override
   Widget build(BuildContext context) {
-    List<String>? birthDate = widget.person!.birthDate
-        ?.toIso8601String()
-        .replaceRange(10, null, '')
-        .replaceAll('-', ' ')
-        .split(' ');
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -103,9 +86,7 @@ class _PersonCardState extends State<PersonCard> {
                               ),
                               Text(widget.person!.name),
                               Text(widget.person!.currentSurname),
-                              Text(birthDate == null
-                                  ? 'N/A'
-                                  : "${birthDate[2]} ${mounths[birthDate[1]]!} ${birthDate[0]}"),
+                              Text(widget.person!.birthDateString),
                             ],
                           )
                         : const Text('N/A')),

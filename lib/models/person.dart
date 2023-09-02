@@ -1,39 +1,44 @@
-import 'package:family_tree_app/models/spouse.dart';
+import 'package:family_tree_app/data/constants.dart';
 
-enum Gender { male, female }
+enum Gender { male, female, unknown }
 
 class Person {
   final int id;
   final String name;
   final String surname;
-  final Gender? gender;
+  final Gender gender;
   final List<String>? marriageSurnames;
   final DateTime? birthDate;
   final String? image;
-  final Spouse spouse;
-  final List<int>? childrenIDs;
-  final List<int>? parentIDs;
+  final List<int>? partnerIDs;
+  final int? motherID;
+  final int? fatherID;
   final bool isDead;
+  final DateTime? deathDate;
   const Person({
     required this.id,
     required this.name,
     required this.surname,
-    this.gender,
-    required this.spouse,
+    required this.gender,
     this.marriageSurnames,
-    this.image,
     this.birthDate,
-    this.childrenIDs,
-    this.parentIDs,
+    this.image,
+    this.partnerIDs,
+    this.motherID,
+    this.fatherID,
     this.isDead = false,
+    this.deathDate,
   });
 
   static const Person empty = Person(
     id: 0,
     name: '',
     surname: '',
+    gender: Gender.unknown,
     birthDate: null,
-    spouse: Spouse(type: SpouseType.single),
+    partnerIDs: null,
+    motherID: null,
+    fatherID: null,
   );
 
   String get currentSurname {
@@ -41,6 +46,36 @@ class Person {
       return surname;
     } else {
       return marriageSurnames!.last;
+    }
+  }
+
+  String get fullName {
+    return '$name $currentSurname';
+  }
+
+  String get birthDateString {
+    List<String>? birthDateList = birthDate
+        ?.toIso8601String()
+        .replaceRange(10, null, '')
+        .replaceAll('-', ' ')
+        .split(' ');
+    if (birthDateList == null) {
+      return 'N/A';
+    } else {
+      return "${birthDateList[2]} ${mounths[birthDateList[1]]!} ${birthDateList[0]}";
+    }
+  }
+
+  String get deathDateString {
+    List<String>? deathDateList = deathDate
+        ?.toIso8601String()
+        .replaceRange(10, null, '')
+        .replaceAll('-', ' ')
+        .split(' ');
+    if (deathDateList == null) {
+      return '';
+    } else {
+      return "- ${deathDateList[2]} ${mounths[deathDateList[1]]!} ${deathDateList[0]}";
     }
   }
 }
