@@ -1,4 +1,4 @@
-import 'package:family_tree_app/constants/known_people.dart';
+import 'package:family_tree_app/secrets/known_people.dart';
 import 'package:family_tree_app/widgets/person_card.dart';
 import 'package:flutter/material.dart';
 

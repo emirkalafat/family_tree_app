@@ -44,4 +44,4 @@ app.*.map.json
 /android/app/release
 
 # for data privacy
-/lib/constants/known_people.dart
+/lib/secrets/*

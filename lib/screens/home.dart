@@ -22,9 +22,9 @@ class _HomeState extends State<Home> {
     ..orientation = BuchheimWalkerConfiguration.ORIENTATION_TOP_BOTTOM
     ..siblingSeparation = (50)
     ..levelSeparation = (75)
-    ..subtreeSeparation = (300);
+    ..subtreeSeparation = (50);
 
-  Person mainPerson = People.getPersonByID(17)!;
+  Person mainPerson = People.getPersonByID(1)!;
 
   List<Map<String, int>>? edges;
 

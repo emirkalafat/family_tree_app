@@ -1,4 +1,4 @@
-import 'package:family_tree_app/constants/known_people.dart';
+import 'package:family_tree_app/secrets/known_people.dart';
 import 'package:family_tree_app/models/person.dart';
 
 class People {
